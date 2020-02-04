@@ -1,0 +1,27 @@
+{
+  "name": "react-graphql-prisma-basic",
+  "version": "1.0.0",
+  "description": "react-graphql-prisma-basic",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sanketjo96/react-graphql-prisma-basic.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sanketjo96/react-graphql-prisma-basic/issues"
+  },
+  "homepage": "https://github.com/sanketjo96/react-graphql-prisma-basic#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "graphql-cli": "^3.0.14",
+    "graphql-yoga": "^1.18.3",
+    "jsonwebtoken": "^8.5.1",
+    "prisma-binding": "^2.3.16"
+  }
+}
