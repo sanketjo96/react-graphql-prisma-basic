@@ -54,16 +54,16 @@ async function login(parent, args, context, info) {
 
 // 2. Not passing info object will NOT return you the nested fields (returns null)
 //  - One way to pass selection set through info to get required result back 
-function post(parent, args, context, info) {
-    const userId = getUserId(context)
-    return context.prisma.mutation.createLink({
-        data: {
-            url: args.url,
-            description: args.description,
-            postedBy: { connect: { id: userId } },
-        }
-    }, info)
-}
+// function post(parent, args, context, info) {
+//     const userId = getUserId(context)
+//     return context.prisma.mutation.createLink({
+//         data: {
+//             url: args.url,
+//             description: args.description,
+//             postedBy: { connect: { id: userId } },
+//         }
+//     }, info)
+// }
 
 //  - Other way is to implement resolver for postedBy
 // function post(parent, args, context, info) {
@@ -76,6 +76,38 @@ function post(parent, args, context, info) {
 //         }
 //     })
 // }
+
+// 3. Also you can maintain 2 way connections
+async function post(parent, args, context, info) {
+    const userId = getUserId(context)
+    const link = await context.prisma.mutation.createLink({
+        data: {
+            url: args.url,
+            description: args.description,
+            postedBy: { connect: { id: userId } },
+        }
+    })
+
+    const user = await context.prisma.mutation.updateUser({
+        where: {
+            id: userId
+        },
+        data: {
+            links: {
+                connect: {
+                    id: link.id
+                }
+            }
+        }
+    })
+
+    return {
+        id: link.id,
+        description: link.description,
+        url: link.url,
+        userId: user.id
+    }
+}
 
 
 module.exports = {
