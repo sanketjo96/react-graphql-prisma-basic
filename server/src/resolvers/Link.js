@@ -14,13 +14,13 @@ async function postedBy(parent, args, context, info) {
 }
 
 // 2. Case where user have association with link
-// function postedBy(parent, args, context, info) {
-//     return context.prisma.query.user({
-//         where: {
-//             id: parent.userId
-//         }
-//     }, info)
-// }
+function postedBy(parent, args, context, info) {
+    return context.prisma.query.user({
+        where: {
+            id: parent.userId
+        }
+    }, info)
+}
 
 module.exports = {
     postedBy

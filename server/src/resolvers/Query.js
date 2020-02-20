@@ -12,7 +12,3 @@ function feed(parent, args, context, info) {
         orderBy: args.orderBy
     }, info)
 }
-
-module.exports = {
-    feed,
-}

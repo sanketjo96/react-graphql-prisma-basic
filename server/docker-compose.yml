@@ -1,7 +1,7 @@
 version: '3'
 services:
   prisma:
-    image: prismagraphql/prisma:1.14
+    image: prismagraphql/prisma:1.28
     restart: always
     ports:
     - "4466:4466"
@@ -24,6 +24,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: prisma
     volumes:
-      - mysql:/var/lib/mysql
+      - lms_db_data:/var/lib/mysql
 volumes:
-  mysql:
+  lms_db_data:

@@ -1,15 +1,32 @@
-type Link {
-    id: ID! @unique
-    description: String!
-    createdAt: DateTime! @createdAt
-    url: String!
-    postedBy: User
+enum UserRole {
+  MANAGER
+  DEVELOPER
+}
+
+type Holiday {
+  id: ID! @unique
+  leave: Leave! @relation(link: INLINE, name: "Holidays_LeavePlan")
+}
+
+type Leave {
+  id: ID! @unique
+  startDate: DateTime!
+  endDate: DateTime!
+  postedBy: [User!]! @relation(link: INLINE, name: "User_LeavePlan")
+  createdAt: DateTime! @createdAt
 }
 
 type User {
   id: ID! @unique
   name: String!
+  role: Role!
   email: String! @unique
   password: String!
-  links: [Link!]!
+  manager: User
+  leavePlans: [Leave!] @relation(link: INLINE, name: "User_LeavePlan", onDelete: CASCADE)
+}
+
+type Role {
+  id: ID! @unique
+  name: UserRole!
 }
