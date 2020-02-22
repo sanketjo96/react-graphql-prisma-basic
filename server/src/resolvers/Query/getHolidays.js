@@ -1,5 +1,8 @@
+const { getUserId } = require('../../utils')
+
 function getHolidays(parent, args, context, info) {
-    return context.prisma.query.roles()
+    const userId = getUserId(context)
+    return context.prisma.query.holidays()
 }
 
 module.exports = getHolidays

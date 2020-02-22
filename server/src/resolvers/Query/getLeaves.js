@@ -1,4 +1,7 @@
+const { getUserId } = require('../../utils')
+
 function getLeaves(parent, args, context, info) {
+    const userId = getUserId(context)
     return context.prisma.query.roles()
 }
 

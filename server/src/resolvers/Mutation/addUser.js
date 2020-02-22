@@ -1,6 +1,9 @@
-async function addUser(parent, args, context, info) {
-    const { name, email, password, roleId, managerId } = args
+const bcrypt = require('bcryptjs')
 
+async function addUser(parent, args, context, info) {
+    const { name, email, roleId, managerId } = args
+
+    const password = await bcrypt.hash(args.password, 10)
     let data = {
         name,
         email,

@@ -19,6 +19,7 @@
   "homepage": "https://github.com/sanketjo96/react-graphql-prisma-basic#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "dotenv": "^8.2.0",
     "graphql-cli": "^3.0.14",
     "graphql-yoga": "^1.18.3",
     "jsonwebtoken": "^8.5.1",
