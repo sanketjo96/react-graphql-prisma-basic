@@ -1,4 +1,3 @@
-require('dotenv').config()
 const { GraphQLServer } = require('graphql-yoga')
 const { Prisma } = require('prisma-binding')
 const Query = require('./src/resolvers/Query/index')

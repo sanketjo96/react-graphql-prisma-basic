@@ -4,7 +4,8 @@
   "description": "react-graphql-prisma-basic",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "dotenv -- node index.js",
+    "prod-start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,6 +21,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
+    "dotenv-cli": "^3.1.0",
     "graphql-cli": "^3.0.14",
     "graphql-yoga": "^1.18.3",
     "jsonwebtoken": "^8.5.1",
