@@ -1,18 +1,14 @@
 enum UserRole {
   MANAGER
   DEVELOPER
-}
-
-type Holiday {
-  id: ID! @unique
-  leave: Leave! @relation(link: INLINE, name: "Holidays_LeavePlan")
+  ADMIN
 }
 
 type Leave {
   id: ID! @unique
   startDate: DateTime!
   endDate: DateTime!
-  postedBy: [User!]! @relation(link: INLINE, name: "User_LeavePlan")
+  postedBy: User! @relation(link: INLINE, name: "User_LeavePlan")
   createdAt: DateTime! @createdAt
 }
 
@@ -28,5 +24,5 @@ type User {
 
 type Role {
   id: ID! @unique
-  name: UserRole!
+  name: UserRole! @unique
 }
