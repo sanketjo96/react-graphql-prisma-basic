@@ -1,6 +1,7 @@
 const leavesSet = `
     {
         id
+        type
         startDate
         endDate
         postedBy {

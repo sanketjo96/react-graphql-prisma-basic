@@ -4,6 +4,12 @@ enum UserRole {
   ADMIN
 }
 
+enum LeaveType {
+  PLANNED
+  HOLIDAY
+}
+
+
 type BatchPayload {
   count: Int!
 }
@@ -52,6 +58,7 @@ type User {
 
 type Leave {
   id: ID!
+  type: LeaveType!
   startDate: String!
   endDate: String!
   postedBy: User!

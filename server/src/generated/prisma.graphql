@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Sun Feb 23 2020 14:52:36 GMT+0530 (India Standard Time)
+# timestamp: Sun Feb 23 2020 20:59:46 GMT+0530 (India Standard Time)
 
 type AggregateLeave {
   count: Int!
@@ -24,6 +24,7 @@ type Leave implements Node {
   id: ID!
   startDate: DateTime!
   endDate: DateTime!
+  type: LeaveType
   postedBy: User!
   createdAt: DateTime!
 }
@@ -41,6 +42,7 @@ type LeaveConnection {
 input LeaveCreateInput {
   startDate: DateTime!
   endDate: DateTime!
+  type: LeaveType
   postedBy: UserCreateOneWithoutLeavePlansInput!
 }
 
@@ -52,6 +54,7 @@ input LeaveCreateManyWithoutPostedByInput {
 input LeaveCreateWithoutPostedByInput {
   startDate: DateTime!
   endDate: DateTime!
+  type: LeaveType
 }
 
 """An edge in a connection."""
@@ -70,6 +73,8 @@ enum LeaveOrderByInput {
   startDate_DESC
   endDate_ASC
   endDate_DESC
+  type_ASC
+  type_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -80,6 +85,7 @@ type LeavePreviousValues {
   id: ID!
   startDate: DateTime!
   endDate: DateTime!
+  type: LeaveType
   createdAt: DateTime!
 }
 
@@ -176,6 +182,16 @@ input LeaveScalarWhereInput {
 
   """All values greater than or equal the given value."""
   endDate_gte: DateTime
+  type: LeaveType
+
+  """All values that are not equal to given value."""
+  type_not: LeaveType
+
+  """All values that are contained in given list."""
+  type_in: [LeaveType!]
+
+  """All values that are not contained in given list."""
+  type_not_in: [LeaveType!]
   createdAt: DateTime
 
   """All values that are not equal to given value."""
@@ -237,20 +253,28 @@ input LeaveSubscriptionWhereInput {
   node: LeaveWhereInput
 }
 
+enum LeaveType {
+  PLANNED
+  HOLIDAY
+}
+
 input LeaveUpdateInput {
   startDate: DateTime
   endDate: DateTime
+  type: LeaveType
   postedBy: UserUpdateOneRequiredWithoutLeavePlansInput
 }
 
 input LeaveUpdateManyDataInput {
   startDate: DateTime
   endDate: DateTime
+  type: LeaveType
 }
 
 input LeaveUpdateManyMutationInput {
   startDate: DateTime
   endDate: DateTime
+  type: LeaveType
 }
 
 input LeaveUpdateManyWithoutPostedByInput {
@@ -273,6 +297,7 @@ input LeaveUpdateManyWithWhereNestedInput {
 input LeaveUpdateWithoutPostedByDataInput {
   startDate: DateTime
   endDate: DateTime
+  type: LeaveType
 }
 
 input LeaveUpdateWithWhereUniqueWithoutPostedByInput {
@@ -379,6 +404,16 @@ input LeaveWhereInput {
 
   """All values greater than or equal the given value."""
   endDate_gte: DateTime
+  type: LeaveType
+
+  """All values that are not equal to given value."""
+  type_not: LeaveType
+
+  """All values that are contained in given list."""
+  type_in: [LeaveType!]
+
+  """All values that are not contained in given list."""
+  type_not_in: [LeaveType!]
   createdAt: DateTime
 
   """All values that are not equal to given value."""

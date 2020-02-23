@@ -4,10 +4,16 @@ enum UserRole {
   ADMIN
 }
 
+enum LeaveType {
+  PLANNED
+  HOLIDAY
+}
+
 type Leave {
   id: ID! @unique
   startDate: DateTime!
   endDate: DateTime!
+  type: LeaveType @default(value: "PLANNED")
   postedBy: User! @relation(link: INLINE, name: "User_LeavePlan")
   createdAt: DateTime! @createdAt
 }
