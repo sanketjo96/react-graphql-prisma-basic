@@ -1,20 +1,33 @@
-enum LinkOrderByInput {
-  description_ASC
-  description_DESC
-  url_ASC
-  url_DESC
-  createdAt_ASC
-  createdAt_DESC
+enum UserRole {
+  MANAGER
+  DEVELOPER
+  ADMIN
+}
+
+enum LeaveType {
+  PLANNED
+  HOLIDAY
+}
+
+
+type BatchPayload {
+  count: Int!
 }
 
 type Query {
-  info: String!
-  feed(filter: String, first: Int, skip: Int, orderBy: LinkOrderByInput): [Link!]!
+  getLeaves(addSub: Boolean): [Leave!]!
+  getHolidays(startDate: String!, endDate: String!): [Leave!]!
+  getRoles(id: String): [Role!]!
 }
 
 type Mutation {
-  post(url: String!, description: String!): Link!
-  signup(email: String!, password: String!, name: String!): AuthPayload
+  addUser(email: String!, password: String!, name: String!, roleId: String!, managerId: String): User!
+  updateUser(name: String!, role: UserRole!, managerId: String!): User!
+  deleteUser(userId: String!): User!
+
+  addLeave(startDate: String!, endDate: String!): User!
+  deleteLeave(leaveIds: [String!]): BatchPayload!
+  
   login(email: String!, password: String!): AuthPayload
 }
 
@@ -23,17 +36,30 @@ type AuthPayload {
   user: User
 }
 
-type Link {
+type Holiday {
   id: ID!
-  description: String!
-  url: String!
-  postedBy: User
+  leave: Leave!
+}
+
+type Role {
+  id: ID!
+  name: UserRole!
 }
 
 type User {
   id: ID!
   name: String!
+  role: Role!
   email: String!
   password: String!
-  links: [Link!]!
+  manager: User
+  leavePlans: [Leave!]
+}
+
+type Leave {
+  id: ID!
+  type: LeaveType!
+  startDate: String!
+  endDate: String!
+  postedBy: User!
 }

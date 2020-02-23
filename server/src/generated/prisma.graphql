@@ -1,7 +1,11 @@
 # source: http://localhost:4466
-# timestamp: Fri Jan 31 2020 19:14:57 GMT+0530 (India Standard Time)
+# timestamp: Sun Feb 23 2020 20:59:46 GMT+0530 (India Standard Time)
 
-type AggregateLink {
+type AggregateLeave {
+  count: Int!
+}
+
+type AggregateRole {
   count: Int!
 }
 
@@ -16,146 +20,84 @@ type BatchPayload {
 
 scalar DateTime
 
-type Link implements Node {
+type Leave implements Node {
   id: ID!
-  description: String!
+  startDate: DateTime!
+  endDate: DateTime!
+  type: LeaveType
+  postedBy: User!
   createdAt: DateTime!
-  url: String!
-  postedBy(where: UserWhereInput): User
 }
 
 """A connection to a list of items."""
-type LinkConnection {
+type LeaveConnection {
   """Information to aid in pagination."""
   pageInfo: PageInfo!
 
   """A list of edges."""
-  edges: [LinkEdge]!
-  aggregate: AggregateLink!
+  edges: [LeaveEdge]!
+  aggregate: AggregateLeave!
 }
 
-input LinkCreateInput {
-  description: String!
-  url: String!
-  postedBy: UserCreateOneWithoutLinksInput
+input LeaveCreateInput {
+  startDate: DateTime!
+  endDate: DateTime!
+  type: LeaveType
+  postedBy: UserCreateOneWithoutLeavePlansInput!
 }
 
-input LinkCreateManyWithoutPostedByInput {
-  create: [LinkCreateWithoutPostedByInput!]
-  connect: [LinkWhereUniqueInput!]
+input LeaveCreateManyWithoutPostedByInput {
+  create: [LeaveCreateWithoutPostedByInput!]
+  connect: [LeaveWhereUniqueInput!]
 }
 
-input LinkCreateWithoutPostedByInput {
-  description: String!
-  url: String!
+input LeaveCreateWithoutPostedByInput {
+  startDate: DateTime!
+  endDate: DateTime!
+  type: LeaveType
 }
 
 """An edge in a connection."""
-type LinkEdge {
+type LeaveEdge {
   """The item at the end of the edge."""
-  node: Link!
+  node: Leave!
 
   """A cursor for use in pagination."""
   cursor: String!
 }
 
-enum LinkOrderByInput {
+enum LeaveOrderByInput {
   id_ASC
   id_DESC
-  description_ASC
-  description_DESC
+  startDate_ASC
+  startDate_DESC
+  endDate_ASC
+  endDate_DESC
+  type_ASC
+  type_DESC
   createdAt_ASC
   createdAt_DESC
-  url_ASC
-  url_DESC
   updatedAt_ASC
   updatedAt_DESC
 }
 
-type LinkPreviousValues {
+type LeavePreviousValues {
   id: ID!
-  description: String!
+  startDate: DateTime!
+  endDate: DateTime!
+  type: LeaveType
   createdAt: DateTime!
-  url: String!
 }
 
-type LinkSubscriptionPayload {
-  mutation: MutationType!
-  node: Link
-  updatedFields: [String!]
-  previousValues: LinkPreviousValues
-}
-
-input LinkSubscriptionWhereInput {
+input LeaveScalarWhereInput {
   """Logical AND on all given filters."""
-  AND: [LinkSubscriptionWhereInput!]
+  AND: [LeaveScalarWhereInput!]
 
   """Logical OR on all given filters."""
-  OR: [LinkSubscriptionWhereInput!]
+  OR: [LeaveScalarWhereInput!]
 
   """Logical NOT on all given filters combined by AND."""
-  NOT: [LinkSubscriptionWhereInput!]
-
-  """The subscription event gets dispatched when it's listed in mutation_in"""
-  mutation_in: [MutationType!]
-
-  """
-  The subscription event gets only dispatched when one of the updated fields names is included in this list
-  """
-  updatedFields_contains: String
-
-  """
-  The subscription event gets only dispatched when all of the field names included in this list have been updated
-  """
-  updatedFields_contains_every: [String!]
-
-  """
-  The subscription event gets only dispatched when some of the field names included in this list have been updated
-  """
-  updatedFields_contains_some: [String!]
-  node: LinkWhereInput
-}
-
-input LinkUpdateInput {
-  description: String
-  url: String
-  postedBy: UserUpdateOneWithoutLinksInput
-}
-
-input LinkUpdateManyWithoutPostedByInput {
-  create: [LinkCreateWithoutPostedByInput!]
-  connect: [LinkWhereUniqueInput!]
-  disconnect: [LinkWhereUniqueInput!]
-  delete: [LinkWhereUniqueInput!]
-  update: [LinkUpdateWithWhereUniqueWithoutPostedByInput!]
-  upsert: [LinkUpsertWithWhereUniqueWithoutPostedByInput!]
-}
-
-input LinkUpdateWithoutPostedByDataInput {
-  description: String
-  url: String
-}
-
-input LinkUpdateWithWhereUniqueWithoutPostedByInput {
-  where: LinkWhereUniqueInput!
-  data: LinkUpdateWithoutPostedByDataInput!
-}
-
-input LinkUpsertWithWhereUniqueWithoutPostedByInput {
-  where: LinkWhereUniqueInput!
-  update: LinkUpdateWithoutPostedByDataInput!
-  create: LinkCreateWithoutPostedByInput!
-}
-
-input LinkWhereInput {
-  """Logical AND on all given filters."""
-  AND: [LinkWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [LinkWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [LinkWhereInput!]
+  NOT: [LeaveScalarWhereInput!]
   id: ID
 
   """All values that are not equal to given value."""
@@ -196,46 +138,60 @@ input LinkWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
-  description: String
+  startDate: DateTime
 
   """All values that are not equal to given value."""
-  description_not: String
+  startDate_not: DateTime
 
   """All values that are contained in given list."""
-  description_in: [String!]
+  startDate_in: [DateTime!]
 
   """All values that are not contained in given list."""
-  description_not_in: [String!]
+  startDate_not_in: [DateTime!]
 
   """All values less than the given value."""
-  description_lt: String
+  startDate_lt: DateTime
 
   """All values less than or equal the given value."""
-  description_lte: String
+  startDate_lte: DateTime
 
   """All values greater than the given value."""
-  description_gt: String
+  startDate_gt: DateTime
 
   """All values greater than or equal the given value."""
-  description_gte: String
+  startDate_gte: DateTime
+  endDate: DateTime
 
-  """All values containing the given string."""
-  description_contains: String
+  """All values that are not equal to given value."""
+  endDate_not: DateTime
 
-  """All values not containing the given string."""
-  description_not_contains: String
+  """All values that are contained in given list."""
+  endDate_in: [DateTime!]
 
-  """All values starting with the given string."""
-  description_starts_with: String
+  """All values that are not contained in given list."""
+  endDate_not_in: [DateTime!]
 
-  """All values not starting with the given string."""
-  description_not_starts_with: String
+  """All values less than the given value."""
+  endDate_lt: DateTime
 
-  """All values ending with the given string."""
-  description_ends_with: String
+  """All values less than or equal the given value."""
+  endDate_lte: DateTime
 
-  """All values not ending with the given string."""
-  description_not_ends_with: String
+  """All values greater than the given value."""
+  endDate_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  endDate_gte: DateTime
+  type: LeaveType
+
+  """All values that are not equal to given value."""
+  type_not: LeaveType
+
+  """All values that are contained in given list."""
+  type_in: [LeaveType!]
+
+  """All values that are not contained in given list."""
+  type_not_in: [LeaveType!]
   createdAt: DateTime
 
   """All values that are not equal to given value."""
@@ -258,50 +214,232 @@ input LinkWhereInput {
 
   """All values greater than or equal the given value."""
   createdAt_gte: DateTime
-  url: String
+}
+
+type LeaveSubscriptionPayload {
+  mutation: MutationType!
+  node: Leave
+  updatedFields: [String!]
+  previousValues: LeavePreviousValues
+}
+
+input LeaveSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [LeaveSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [LeaveSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [LeaveSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: LeaveWhereInput
+}
+
+enum LeaveType {
+  PLANNED
+  HOLIDAY
+}
+
+input LeaveUpdateInput {
+  startDate: DateTime
+  endDate: DateTime
+  type: LeaveType
+  postedBy: UserUpdateOneRequiredWithoutLeavePlansInput
+}
+
+input LeaveUpdateManyDataInput {
+  startDate: DateTime
+  endDate: DateTime
+  type: LeaveType
+}
+
+input LeaveUpdateManyMutationInput {
+  startDate: DateTime
+  endDate: DateTime
+  type: LeaveType
+}
+
+input LeaveUpdateManyWithoutPostedByInput {
+  create: [LeaveCreateWithoutPostedByInput!]
+  connect: [LeaveWhereUniqueInput!]
+  set: [LeaveWhereUniqueInput!]
+  disconnect: [LeaveWhereUniqueInput!]
+  delete: [LeaveWhereUniqueInput!]
+  update: [LeaveUpdateWithWhereUniqueWithoutPostedByInput!]
+  updateMany: [LeaveUpdateManyWithWhereNestedInput!]
+  deleteMany: [LeaveScalarWhereInput!]
+  upsert: [LeaveUpsertWithWhereUniqueWithoutPostedByInput!]
+}
+
+input LeaveUpdateManyWithWhereNestedInput {
+  where: LeaveScalarWhereInput!
+  data: LeaveUpdateManyDataInput!
+}
+
+input LeaveUpdateWithoutPostedByDataInput {
+  startDate: DateTime
+  endDate: DateTime
+  type: LeaveType
+}
+
+input LeaveUpdateWithWhereUniqueWithoutPostedByInput {
+  where: LeaveWhereUniqueInput!
+  data: LeaveUpdateWithoutPostedByDataInput!
+}
+
+input LeaveUpsertWithWhereUniqueWithoutPostedByInput {
+  where: LeaveWhereUniqueInput!
+  update: LeaveUpdateWithoutPostedByDataInput!
+  create: LeaveCreateWithoutPostedByInput!
+}
+
+input LeaveWhereInput {
+  """Logical AND on all given filters."""
+  AND: [LeaveWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [LeaveWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [LeaveWhereInput!]
+  id: ID
 
   """All values that are not equal to given value."""
-  url_not: String
+  id_not: ID
 
   """All values that are contained in given list."""
-  url_in: [String!]
+  id_in: [ID!]
 
   """All values that are not contained in given list."""
-  url_not_in: [String!]
+  id_not_in: [ID!]
 
   """All values less than the given value."""
-  url_lt: String
+  id_lt: ID
 
   """All values less than or equal the given value."""
-  url_lte: String
+  id_lte: ID
 
   """All values greater than the given value."""
-  url_gt: String
+  id_gt: ID
 
   """All values greater than or equal the given value."""
-  url_gte: String
+  id_gte: ID
 
   """All values containing the given string."""
-  url_contains: String
+  id_contains: ID
 
   """All values not containing the given string."""
-  url_not_contains: String
+  id_not_contains: ID
 
   """All values starting with the given string."""
-  url_starts_with: String
+  id_starts_with: ID
 
   """All values not starting with the given string."""
-  url_not_starts_with: String
+  id_not_starts_with: ID
 
   """All values ending with the given string."""
-  url_ends_with: String
+  id_ends_with: ID
 
   """All values not ending with the given string."""
-  url_not_ends_with: String
+  id_not_ends_with: ID
+  startDate: DateTime
+
+  """All values that are not equal to given value."""
+  startDate_not: DateTime
+
+  """All values that are contained in given list."""
+  startDate_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  startDate_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  startDate_lt: DateTime
+
+  """All values less than or equal the given value."""
+  startDate_lte: DateTime
+
+  """All values greater than the given value."""
+  startDate_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  startDate_gte: DateTime
+  endDate: DateTime
+
+  """All values that are not equal to given value."""
+  endDate_not: DateTime
+
+  """All values that are contained in given list."""
+  endDate_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  endDate_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  endDate_lt: DateTime
+
+  """All values less than or equal the given value."""
+  endDate_lte: DateTime
+
+  """All values greater than the given value."""
+  endDate_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  endDate_gte: DateTime
+  type: LeaveType
+
+  """All values that are not equal to given value."""
+  type_not: LeaveType
+
+  """All values that are contained in given list."""
+  type_in: [LeaveType!]
+
+  """All values that are not contained in given list."""
+  type_not_in: [LeaveType!]
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
   postedBy: UserWhereInput
 }
 
-input LinkWhereUniqueInput {
+input LeaveWhereUniqueInput {
   id: ID
 }
 
@@ -312,17 +450,23 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
-  createLink(data: LinkCreateInput!): Link!
+  createLeave(data: LeaveCreateInput!): Leave!
+  createRole(data: RoleCreateInput!): Role!
   createUser(data: UserCreateInput!): User!
-  updateLink(data: LinkUpdateInput!, where: LinkWhereUniqueInput!): Link
+  updateLeave(data: LeaveUpdateInput!, where: LeaveWhereUniqueInput!): Leave
+  updateRole(data: RoleUpdateInput!, where: RoleWhereUniqueInput!): Role
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  deleteLink(where: LinkWhereUniqueInput!): Link
+  deleteLeave(where: LeaveWhereUniqueInput!): Leave
+  deleteRole(where: RoleWhereUniqueInput!): Role
   deleteUser(where: UserWhereUniqueInput!): User
-  upsertLink(where: LinkWhereUniqueInput!, create: LinkCreateInput!, update: LinkUpdateInput!): Link!
+  upsertLeave(where: LeaveWhereUniqueInput!, create: LeaveCreateInput!, update: LeaveUpdateInput!): Leave!
+  upsertRole(where: RoleWhereUniqueInput!, create: RoleCreateInput!, update: RoleUpdateInput!): Role!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
-  updateManyLinks(data: LinkUpdateInput!, where: LinkWhereInput): BatchPayload!
-  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
-  deleteManyLinks(where: LinkWhereInput): BatchPayload!
+  updateManyLeaves(data: LeaveUpdateManyMutationInput!, where: LeaveWhereInput): BatchPayload!
+  updateManyRoles(data: RoleUpdateManyMutationInput!, where: RoleWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+  deleteManyLeaves(where: LeaveWhereInput): BatchPayload!
+  deleteManyRoles(where: RoleWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
 }
 
@@ -354,11 +498,14 @@ type PageInfo {
 }
 
 type Query {
-  links(where: LinkWhereInput, orderBy: LinkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Link]!
+  leaves(where: LeaveWhereInput, orderBy: LeaveOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Leave]!
+  roles(where: RoleWhereInput, orderBy: RoleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Role]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
-  link(where: LinkWhereUniqueInput!): Link
+  leave(where: LeaveWhereUniqueInput!): Leave
+  role(where: RoleWhereUniqueInput!): Role
   user(where: UserWhereUniqueInput!): User
-  linksConnection(where: LinkWhereInput, orderBy: LinkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LinkConnection!
+  leavesConnection(where: LeaveWhereInput, orderBy: LeaveOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LeaveConnection!
+  rolesConnection(where: RoleWhereInput, orderBy: RoleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RoleConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
 
   """Fetches an object given its ID"""
@@ -368,17 +515,196 @@ type Query {
   ): Node
 }
 
+type Role implements Node {
+  id: ID!
+  name: UserRole!
+}
+
+"""A connection to a list of items."""
+type RoleConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [RoleEdge]!
+  aggregate: AggregateRole!
+}
+
+input RoleCreateInput {
+  name: UserRole!
+}
+
+input RoleCreateOneInput {
+  create: RoleCreateInput
+  connect: RoleWhereUniqueInput
+}
+
+"""An edge in a connection."""
+type RoleEdge {
+  """The item at the end of the edge."""
+  node: Role!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum RoleOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type RolePreviousValues {
+  id: ID!
+  name: UserRole!
+}
+
+type RoleSubscriptionPayload {
+  mutation: MutationType!
+  node: Role
+  updatedFields: [String!]
+  previousValues: RolePreviousValues
+}
+
+input RoleSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [RoleSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [RoleSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [RoleSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: RoleWhereInput
+}
+
+input RoleUpdateDataInput {
+  name: UserRole
+}
+
+input RoleUpdateInput {
+  name: UserRole
+}
+
+input RoleUpdateManyMutationInput {
+  name: UserRole
+}
+
+input RoleUpdateOneRequiredInput {
+  create: RoleCreateInput
+  connect: RoleWhereUniqueInput
+  update: RoleUpdateDataInput
+  upsert: RoleUpsertNestedInput
+}
+
+input RoleUpsertNestedInput {
+  update: RoleUpdateDataInput!
+  create: RoleCreateInput!
+}
+
+input RoleWhereInput {
+  """Logical AND on all given filters."""
+  AND: [RoleWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [RoleWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [RoleWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: UserRole
+
+  """All values that are not equal to given value."""
+  name_not: UserRole
+
+  """All values that are contained in given list."""
+  name_in: [UserRole!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [UserRole!]
+}
+
+input RoleWhereUniqueInput {
+  id: ID
+  name: UserRole
+}
+
 type Subscription {
-  link(where: LinkSubscriptionWhereInput): LinkSubscriptionPayload
+  leave(where: LeaveSubscriptionWhereInput): LeaveSubscriptionPayload
+  role(where: RoleSubscriptionWhereInput): RoleSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
 type User implements Node {
   id: ID!
   name: String!
+  role: Role!
   email: String!
   password: String!
-  links(where: LinkWhereInput, orderBy: LinkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Link!]
+  manager: User
+  leavePlans(where: LeaveWhereInput, orderBy: LeaveOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Leave!]
 }
 
 """A connection to a list of items."""
@@ -395,18 +721,27 @@ input UserCreateInput {
   name: String!
   email: String!
   password: String!
-  links: LinkCreateManyWithoutPostedByInput
+  role: RoleCreateOneInput!
+  manager: UserCreateOneInput
+  leavePlans: LeaveCreateManyWithoutPostedByInput
 }
 
-input UserCreateOneWithoutLinksInput {
-  create: UserCreateWithoutLinksInput
+input UserCreateOneInput {
+  create: UserCreateInput
   connect: UserWhereUniqueInput
 }
 
-input UserCreateWithoutLinksInput {
+input UserCreateOneWithoutLeavePlansInput {
+  create: UserCreateWithoutLeavePlansInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutLeavePlansInput {
   name: String!
   email: String!
   password: String!
+  role: RoleCreateOneInput!
+  manager: UserCreateOneInput
 }
 
 """An edge in a connection."""
@@ -438,6 +773,12 @@ type UserPreviousValues {
   name: String!
   email: String!
   password: String!
+}
+
+enum UserRole {
+  MANAGER
+  DEVELOPER
+  ADMIN
 }
 
 type UserSubscriptionPayload {
@@ -477,31 +818,62 @@ input UserSubscriptionWhereInput {
   node: UserWhereInput
 }
 
+input UserUpdateDataInput {
+  name: String
+  email: String
+  password: String
+  role: RoleUpdateOneRequiredInput
+  manager: UserUpdateOneInput
+  leavePlans: LeaveUpdateManyWithoutPostedByInput
+}
+
 input UserUpdateInput {
   name: String
   email: String
   password: String
-  links: LinkUpdateManyWithoutPostedByInput
+  role: RoleUpdateOneRequiredInput
+  manager: UserUpdateOneInput
+  leavePlans: LeaveUpdateManyWithoutPostedByInput
 }
 
-input UserUpdateOneWithoutLinksInput {
-  create: UserCreateWithoutLinksInput
-  connect: UserWhereUniqueInput
-  disconnect: Boolean
-  delete: Boolean
-  update: UserUpdateWithoutLinksDataInput
-  upsert: UserUpsertWithoutLinksInput
-}
-
-input UserUpdateWithoutLinksDataInput {
+input UserUpdateManyMutationInput {
   name: String
   email: String
   password: String
 }
 
-input UserUpsertWithoutLinksInput {
-  update: UserUpdateWithoutLinksDataInput!
-  create: UserCreateWithoutLinksInput!
+input UserUpdateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+}
+
+input UserUpdateOneRequiredWithoutLeavePlansInput {
+  create: UserCreateWithoutLeavePlansInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutLeavePlansDataInput
+  upsert: UserUpsertWithoutLeavePlansInput
+}
+
+input UserUpdateWithoutLeavePlansDataInput {
+  name: String
+  email: String
+  password: String
+  role: RoleUpdateOneRequiredInput
+  manager: UserUpdateOneInput
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
+}
+
+input UserUpsertWithoutLeavePlansInput {
+  update: UserUpdateWithoutLeavePlansDataInput!
+  create: UserCreateWithoutLeavePlansInput!
 }
 
 input UserWhereInput {
@@ -673,9 +1045,11 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   password_not_ends_with: String
-  links_every: LinkWhereInput
-  links_some: LinkWhereInput
-  links_none: LinkWhereInput
+  role: RoleWhereInput
+  manager: UserWhereInput
+  leavePlans_every: LeaveWhereInput
+  leavePlans_some: LeaveWhereInput
+  leavePlans_none: LeaveWhereInput
 }
 
 input UserWhereUniqueInput {
