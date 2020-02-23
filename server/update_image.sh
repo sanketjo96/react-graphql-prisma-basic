@@ -1,0 +1,1 @@
+docker image build -t sanketjoshi/lms-back:latest . && docker push sanketjoshi/lms-back:latest
